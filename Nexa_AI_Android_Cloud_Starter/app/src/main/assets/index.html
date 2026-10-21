@@ -101,8 +101,9 @@ async function send(text){
     if(!response.ok)throw new Error(data.error||'Request failed');
     assistantMessage.text=data.reply||'پاسخی دریافت نشد.';
   }catch(error){
-    assistantMessage.text='اتصال به هوش مصنوعی برقرار نشد. اینترنت یا تنظیمات سرور را بررسی کن.';
-  }finally{
+    console.error('Nexa AI error:', error);
+    assistantMessage.text='خطا: '+(error.message || String(error));
+}finally{
     $('#sendBtn').disabled=false;
     renderMessages();renderChats();$('#pageTitle').textContent=c.title;
   }
