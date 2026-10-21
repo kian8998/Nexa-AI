@@ -79,7 +79,34 @@ function active(){return chats.find(c=>c.id===activeId)}
 function renderChats(){$('#chatlist').innerHTML='';chats.forEach(c=>{const b=document.createElement('button');b.className='chatitem'+(c.id===activeId?' active':'');b.textContent='▤  '+c.title;b.onclick=()=>{activeId=c.id;renderChats();renderMessages();showView('chat');$('#pageTitle').textContent=c.title};$('#chatlist').appendChild(b)})}
 function renderMessages(){const c=active();$('#messages').innerHTML='';if(!c||!c.messages.length){$('#welcome').style.display='block';$('#suggestions').style.display='grid'}else{$('#welcome').style.display='none';$('#suggestions').style.display='none';c.messages.forEach(m=>{const d=document.createElement('div');d.className='msg '+m.role;d.textContent=m.text;$('#messages').appendChild(d)})}}
 function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$('#'+v+'View').classList.add('active');$('#composerWrap').style.display=v==='chat'?'block':'none';if(v==='premium'){$('#pageTitle').textContent='اشتراک ویژه';$('#pageSub').textContent='Nexa Plus'}if(v==='settings'){$('#pageTitle').textContent='تنظیمات';$('#pageSub').textContent='شخصی‌سازی اپ'}if(v==='chat'){const c=active();$('#pageTitle').textContent=c?c.title:'گفت‌وگوی جدید';$('#pageSub').textContent='با Nexa شروع کن'}$('#sidebar').classList.remove('open')}
-function send(text){text=(text||$('#prompt').value).trim();if(!text)return;if(!active())newChat();const c=active();c.messages.push({role:'user',text});if(c.messages.length===1)c.title=text.length>25?text.slice(0,25)+'…':text;const reply='این نسخه، نمونه اولیه رابط کاربری Nexa AI است. برای اینکه پاسخ واقعی تولید کنم، باید موتور هوش مصنوعی به‌صورت امن به برنامه متصل شود. پیام تو در این نسخه نمایشی ثبت شد.';c.messages.push({role:'assistant',text:reply});$('#prompt').value='';renderChats();renderMessages();$('#pageTitle').textContent=c.title}
+async function send(text){
+  text=(text||$('#prompt').value).trim();
+  if(!text)return;
+  if(!active())newChat();
+  const c=active();
+  c.messages.push({role:'user',text});
+  if(c.messages.length===1)c.title=text.length>25?text.slice(0,25)+'…':text;
+  $('#prompt').value='';
+  const assistantMessage={role:'assistant',text:'در حال فکر کردن…'};
+  c.messages.push(assistantMessage);
+  renderChats();renderMessages();$('#pageTitle').textContent=c.title;
+  $('#sendBtn').disabled=true;
+  try{
+    const response=await fetch('https://raspy-silence-3c45.kian80229-d6a.workers.dev/',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({message:text})
+    });
+    const data=await response.json();
+    if(!response.ok)throw new Error(data.error||'Request failed');
+    assistantMessage.text=data.reply||'پاسخی دریافت نشد.';
+  }catch(error){
+    assistantMessage.text='اتصال به هوش مصنوعی برقرار نشد. اینترنت یا تنظیمات سرور را بررسی کن.';
+  }finally{
+    $('#sendBtn').disabled=false;
+    renderMessages();renderChats();$('#pageTitle').textContent=c.title;
+  }
+}
 $('#newChat').onclick=newChat;$('#sendBtn').onclick=()=>send();$('#prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>send(b.dataset.prompt));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view==='premium'?'premium':b.dataset.view==='settings'?'settings':'chat'));
 $('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);function applyTheme(t){theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾'}
 $('#saveSettings').onclick=()=>{displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';};
