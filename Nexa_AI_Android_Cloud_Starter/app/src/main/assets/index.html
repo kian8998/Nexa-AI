@@ -3,35 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#101322">
+<meta name="theme-color" content="#030611">
 <title>Nexa AI</title>
 <style>
-:root{--bg:#000;--panel:#090909;--panel2:#141414;--text:#f5f5f5;--muted:#a8a8a8;--accent:#8b7cff;--line:#292929;--bubble:#111}
-[data-theme="light"]{--bg:#f4f6fc;--panel:#fff;--panel2:#eef1fb;--text:#182039;--muted:#626d86;--accent:#6354e8;--line:#dfe4f1;--bubble:#edf0fa}
+:root{--bg:#030611;--panel:#081020;--panel2:#0d1930;--text:#eef4ff;--muted:#91a8c8;--accent:#8b5cf6;--line:#1b3150;--bubble:#0b1730}
+[data-theme="light"]{--bg:#f3f6ff;--panel:#fff;--panel2:#edf1ff;--text:#182039;--muted:#626d86;--accent:#6354e8;--line:#dfe4f1;--bubble:#edf0fa}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
-button,input,textarea{font:inherit}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 18% 25%,#24105b55,transparent 38%),radial-gradient(ellipse at 90% 0%,#063a6755,transparent 34%),var(--bg);color:var(--text);font-family:"Vazirmatn","IRANSansX",Tahoma,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
 button{cursor:pointer}
 .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh;max-width:1400px;margin:auto}
-.sidebar{background:var(--panel);border-left:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px}
+.sidebar{background:linear-gradient(180deg,#080d1b,#050914);border-left:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px}
 .brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
-.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#8b7cff,#36c9d8);color:white;font-weight:900}
+.logo,.orb{display:grid;place-items:center;background:linear-gradient(135deg,#8b5cf6,#168bff,#25d6ce);box-shadow:0 0 28px #6d5df544;color:white}
+.logo{width:42px;height:42px;border-radius:14px}
 .sub{font-size:12px;color:var(--muted);margin-top:3px}
-.btn{border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--text);padding:11px 13px}
-.btn.primary{background:var(--accent);border-color:transparent;color:white;font-weight:700}
+.btn{border:1px solid var(--line);border-radius:14px;background:var(--panel2);color:var(--text);padding:11px 13px;transition:.2s}
+.btn:hover,.suggest:hover{border-color:#765bff;transform:translateY(-1px)}
+.btn.primary{background:linear-gradient(135deg,#8b5cf6,#4263ff);border-color:transparent;color:white;font-weight:700}
 .btn.full{width:100%}
 .chatlist{display:flex;flex-direction:column;gap:6px;overflow:auto}
-.chatitem{display:flex;align-items:center;gap:8px;text-align:right;width:100%;border:1px solid transparent;background:transparent;color:var(--text);border-radius:11px;padding:11px}
+.chatitem{display:flex;text-align:right;width:100%;border:1px solid transparent;background:transparent;color:var(--text);border-radius:11px;padding:11px}
 .chatitem.active,.chatitem:hover{background:var(--panel2);border-color:var(--line)}
 .sidebarfoot{margin-top:auto;display:grid;gap:8px}
 .main{display:flex;flex-direction:column;min-width:0;min-height:100vh}
-.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);gap:12px}
+.topbar{min-height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid #142844;background:#050914aa;gap:12px}
 .topright{display:flex;align-items:center;gap:10px}
-.pill{font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;color:var(--muted)}
-.content{width:min(850px,100%);margin:0 auto;padding:28px 22px;display:flex;flex-direction:column;gap:20px;flex:1}
+.pill{font-size:12px;border:1px solid #28476b;padding:7px 10px;border-radius:999px;color:var(--muted)}
+.content{width:min(850px,100%);margin:0 auto;padding:28px 22px;display:flex;flex-direction:column;gap:22px;flex:1}
 .welcome{text-align:center;padding:30px 10px 10px}
-.orb{width:68px;height:68px;border-radius:23px;margin:0 auto 18px;background:linear-gradient(135deg,#8b7cff,#36c9d8);display:grid;place-items:center;font-size:28px;box-shadow:0 12px 35px #6354e833}
-.welcome h1{font-size:28px;margin:0 0 10px}
+.orb{width:68px;height:68px;border-radius:23px;margin:0 auto 18px;font-size:28px}
+.welcome h1{font-size:28px;margin:0 0 10px;background:linear-gradient(90deg,#fff,#b9c9ff,#a88bff);color:transparent;background-clip:text}
 .welcome p{color:var(--muted);margin:0;line-height:1.9}
 .suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .suggest{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;text-align:right;color:var(--text);line-height:1.8}
@@ -42,9 +44,9 @@ button{cursor:pointer}
 .msg.user{align-self:flex-start;background:var(--accent);color:#fff;border-bottom-left-radius:5px}
 .msg.assistant{align-self:flex-end;background:var(--bubble);border:1px solid var(--line);border-bottom-right-radius:5px}
 .composer-wrap{position:sticky;bottom:0;padding:12px 20px 20px;background:linear-gradient(transparent,var(--bg) 20%)}
-.composer{width:min(850px,100%);margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;align-items:flex-end;gap:10px}
+.composer{width:min(850px,100%);margin:auto;background:linear-gradient(120deg,#0a1427,#0d1930);border:1px solid #285d9b;border-radius:18px;padding:10px;display:flex;align-items:flex-end;gap:10px;box-shadow:0 0 25px #167cff16}
 .composer textarea{resize:vertical;min-height:46px;max-height:140px;flex:1;border:0;outline:0;background:transparent;color:var(--text);padding:12px;line-height:1.7}
-.send{width:46px;height:46px;border:0;border-radius:13px;background:var(--accent);color:white;font-size:20px}
+.send{width:46px;height:46px;border:0;border-radius:13px;background:linear-gradient(135deg,#a855f7,#4263ff);color:white;font-size:20px}
 .send:disabled{opacity:.5}
 .note{text-align:center;color:var(--muted);font-size:11px;margin-top:9px}
 .mobile-menu{display:none}
@@ -58,18 +60,35 @@ button{cursor:pointer}
 .check{line-height:2.1;color:var(--muted)}
 .field{display:grid;gap:8px;margin:12px 0}
 .field input,.field select{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text)}
+.model-picker{width:min(850px,100%);margin:0 auto 10px;background:linear-gradient(120deg,#0b1428,#0d1930);border:1px solid #28476b;border-radius:18px;padding:13px 15px;color:var(--text)}
+.model-picker-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.model-picker label{display:block;font-size:12px;color:var(--muted);margin:0}
+.model-toggle{border:1px solid #3c5f99;border-radius:10px;background:#101f3a;color:#eaf1ff;padding:7px 10px;font-size:12px;white-space:nowrap}
+.model-options[hidden]{display:none!important}
+.model-picker select{width:100%;margin-top:10px;padding:12px 14px;border:1px solid #3c5f99;border-radius:13px;background:#0b1428;color:#eef4ff;font-weight:700;outline:none}
+.model-description{font-size:12px;line-height:1.8;color:#9cb4d7;margin-top:8px}
+.model-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}
+.model-tile{border:1px solid #1b3150;background:#081020;border-radius:14px;padding:10px;display:flex;gap:9px;align-items:center;color:#eaf1ff;text-align:right}
+.model-tile .model-icon{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#47218b,#142d59);font-size:21px;flex-shrink:0}
+.model-tile b{display:block;font-size:13px}
+.model-tile small{display:block;color:#91a8c8;font-size:11px;line-height:1.6;margin-top:3px}
+.model-tile.selected{border-color:#8b5cf6;box-shadow:inset 0 0 0 1px #8b5cf655,0 0 20px #8b5cf61c}
 @media(max-width:760px){
 .app{grid-template-columns:1fr}
 .sidebar{display:none;position:fixed;z-index:5;inset:0 auto 0 0;width:min(300px,85vw);box-shadow:0 0 0 100vmax #0008}
 .sidebar.open{display:flex}
 .mobile-menu{display:inline-flex}
-.topbar{padding:0 14px;height:64px}
+.topbar{padding:0 14px;min-height:64px}
 .content{padding:18px 14px}
 .welcome{padding-top:22px}
 .welcome h1{font-size:24px}
 .suggestions{grid-template-columns:1fr}
 .composer-wrap{padding:10px 12px 14px}
 .msg{max-width:96%}
+.model-tiles{grid-template-columns:1fr 1fr}
+.model-picker{padding:10px}
+.model-tile{padding:8px;gap:7px}
+.model-tile .model-icon{width:34px;height:34px}
 }
 </style>
 </head>
@@ -150,6 +169,27 @@ button{cursor:pointer}
 </section>
 
 <div class="composer-wrap" id="composerWrap">
+  <div class="model-picker">
+    <div class="model-picker-head">
+      <label for="modelSelect">مدل هوش مصنوعی · مدل موردنظرت رو انتخاب کن</label>
+      <button type="button" class="model-toggle" id="modelToggle" aria-expanded="true">بستن مدل‌ها −</button>
+    </div>
+    <div class="model-options" id="modelOptions">
+      <select id="modelSelect">
+        <option value="chat">✨ Nexa Chat — گفت‌وگوی عمومی</option>
+        <option value="fast">⚡ Nexa Fast — پاسخ‌های کوتاه و سریع</option>
+        <option value="think">🧠 Nexa Think — تحلیل و استدلال</option>
+        <option value="code">⌘ Nexa Code — برنامه‌نویسی و رفع خطا</option>
+      </select>
+      <div class="model-description" id="modelDescription">برای پرسش‌های روزمره، نوشتن متن، یادگیری و ایده‌پردازی.</div>
+      <div class="model-tiles">
+        <button type="button" class="model-tile selected" data-model-tile="chat"><span class="model-icon">✦</span><span><b>Nexa Chat</b><small>گفت‌وگوی عمومی</small></span></button>
+        <button type="button" class="model-tile" data-model-tile="fast"><span class="model-icon">⚡</span><span><b>Nexa Fast</b><small>کارهای سریع روزمره</small></span></button>
+        <button type="button" class="model-tile" data-model-tile="think"><span class="model-icon">🧠</span><span><b>Nexa Think</b><small>تحلیل و استدلال</small></span></button>
+        <button type="button" class="model-tile" data-model-tile="code"><span class="model-icon">⌘</span><span><b>Nexa Code</b><small>کدنویسی و اشکال‌زدایی</small></span></button>
+      </div>
+    </div>
+  </div>
   <div class="composer">
     <textarea id="prompt" rows="1" placeholder="پیامت رو اینجا بنویس…"></textarea>
     <button class="send" id="sendBtn" aria-label="ارسال">➤</button>
@@ -182,12 +222,21 @@ try {
 let activeId = null;
 let theme = readStorage('nexa_theme', 'dark');
 let displayName = readStorage('nexa_name', '');
+let selectedModel = readStorage('nexa_model', 'chat');
+
+const modelDescriptions = {
+  chat: 'برای پرسش‌های روزمره، نوشتن متن، یادگیری و ایده‌پردازی.',
+  fast: 'برای درخواست‌های کوتاه و کارهای روزمره که پاسخ سریع می‌خواهند.',
+  think: 'برای تحلیل مرحله‌به‌مرحله، مقایسه گزینه‌ها و مسئله‌های پیچیده.',
+  code: 'برای نوشتن کد، توضیح برنامه‌ها و پیدا کردن خطاهای برنامه‌نویسی.'
+};
 
 function saveChats() {
   try {
     localStorage.setItem('nexa_chats', JSON.stringify(chats));
     localStorage.setItem('nexa_theme', theme);
     localStorage.setItem('nexa_name', displayName);
+    localStorage.setItem('nexa_model', selectedModel);
   } catch (e) {
     console.error('ذخیره اطلاعات انجام نشد:', e);
   }
@@ -308,7 +357,7 @@ async function send(text) {
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({message: text})
+        body: JSON.stringify({message: text, model: selectedModel})
       }
     );
 
@@ -335,6 +384,34 @@ function applyTheme(t) {
   $('#themeBtn').textContent = t === 'dark' ? '☼' : '☾';
   saveChats();
 }
+
+function applyModel(model) {
+  selectedModel = model;
+  $('#modelSelect').value = model;
+  $('#modelDescription').textContent = modelDescriptions[model] || modelDescriptions.chat;
+
+  document.querySelectorAll('[data-model-tile]').forEach(tile => {
+    tile.classList.toggle('selected', tile.dataset.modelTile === model);
+  });
+
+  saveChats();
+}
+
+$('#modelSelect').onchange = e => applyModel(e.target.value);
+
+document.querySelectorAll('[data-model-tile]').forEach(tile => {
+  tile.onclick = () => applyModel(tile.dataset.modelTile);
+});
+
+// باز و بسته کردن منوی مدل‌ها بدون خروج از صفحه چت
+$('#modelToggle').onclick = () => {
+  const options = $('#modelOptions');
+  const isOpen = !options.hidden;
+
+  options.hidden = isOpen;
+  $('#modelToggle').textContent = isOpen ? 'انتخاب مدل +' : 'بستن مدل‌ها −';
+  $('#modelToggle').setAttribute('aria-expanded', String(!isOpen));
+};
 
 $('#newChat').onclick = newChat;
 $('#sendBtn').onclick = () => send();
@@ -376,6 +453,7 @@ document.documentElement.dataset.theme = theme;
 $('#themeSelect').value = theme;
 $('#themeBtn').textContent = theme === 'dark' ? '☼' : '☾';
 $('#displayName').value = displayName;
+applyModel(selectedModel);
 
 if (chats.length) {
   activeId = chats[0].id;
