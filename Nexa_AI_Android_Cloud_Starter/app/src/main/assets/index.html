@@ -116,8 +116,8 @@ async function send(text){
   }
 }
 $('#newChat').onclick=newChat;$('#sendBtn').onclick=()=>send();$('#prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>send(b.dataset.prompt));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view==='premium'?'premium':b.dataset.view==='settings'?'settings':'chat'));
-$('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);function applyTheme(t)saveChats();{theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾'}
-$('#saveSettings').onclick=()=>saveChats();{displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';};
+$('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);$('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);function applyTheme(t){theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾';saveChats()}theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾'}
+$('#saveSettings').onclick=()=>{displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';saveChats()};displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';};
 $('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');$('#buyBtn').onclick=()=>alert('پرداخت هنوز متصل نیست. در نسخه نهایی باید شناسه محصول و کلید عمومی برنامه از پنل توسعه‌دهندگان مایکت تنظیم شود.');
 if(chats.length){
   activeId=chats[0].id;
