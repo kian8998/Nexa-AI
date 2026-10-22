@@ -1,3 +1,4 @@
+
 plugins {
     id 'com.android.application'
 }
@@ -12,5 +13,23 @@ android {
         targetSdk 35
         versionCode 1
         versionName '0.1.0'
+    }
+
+    signingConfigs {
+        release {
+            def keystorePath = System.getenv('RELEASE_STORE_FILE')
+            if (keystorePath != null) {
+                storeFile file(keystorePath)
+                storePassword System.getenv('NEXA_KEYSTORE_PASSWORD')
+                keyAlias System.getenv('NEXA_KEY_ALIAS')
+                keyPassword System.getenv('NEXA_KEYSTORE_PASSWORD')
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
     }
 }
