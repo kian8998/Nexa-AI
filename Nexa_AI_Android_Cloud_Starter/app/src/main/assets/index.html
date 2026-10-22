@@ -48,6 +48,11 @@ button{cursor:pointer}
 .composer textarea{resize:vertical;min-height:46px;max-height:140px;flex:1;border:0;outline:0;background:transparent;color:var(--text);padding:12px;line-height:1.7}
 .send{width:46px;height:46px;border:0;border-radius:13px;background:linear-gradient(135deg,#a855f7,#4263ff);color:white;font-size:20px}
 .send:disabled{opacity:.5}
+.attach-btn{width:46px;height:46px;flex-shrink:0;border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--text);font-size:22px}
+.attachment-chip{display:none;width:min(850px,100%);margin:0 auto 8px;padding:9px 12px;border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--muted);font-size:12px;align-items:center;gap:10px}
+.attachment-chip.show{display:flex}
+.attachment-chip span{flex:1;overflow-wrap:anywhere}
+.attachment-chip button{border:0;background:transparent;color:var(--text);font-size:18px}
 .note{text-align:center;color:var(--muted);font-size:11px;margin-top:9px}
 .mobile-menu{display:none}
 .view{display:none}
@@ -190,7 +195,10 @@ button{cursor:pointer}
       </div>
     </div>
   </div>
+  <div class="attachment-chip" id="attachmentChip"><span id="attachmentName"></span><button type="button" id="removeAttachment" aria-label="حذف فایل">×</button></div>
   <div class="composer">
+    <input id="attachmentInput" type="file" accept="image/*,video/*,audio/*,.pdf,.txt,.md,.csv,.json,.doc,.docx" hidden>
+    <button type="button" class="attach-btn" id="attachBtn" aria-label="افزودن عکس، فیلم، ویس یا فایل" title="افزودن عکس، فیلم، ویس یا فایل">＋</button>
     <textarea id="prompt" rows="1" placeholder="پیامت رو اینجا بنویس…"></textarea>
     <button class="send" id="sendBtn" aria-label="ارسال">➤</button>
   </div>
@@ -223,6 +231,8 @@ let activeId = null;
 let theme = readStorage('nexa_theme', 'dark');
 let displayName = readStorage('nexa_name', '');
 let selectedModel = readStorage('nexa_model', 'chat');
+let pendingAttachment = null;
+const MAX_ATTACHMENT_BYTES = 5 * 1024 * 1024;
 
 const modelDescriptions = {
   chat: 'برای پرسش‌های روزمره، نوشتن متن، یادگیری و ایده‌پردازی.',
@@ -327,20 +337,56 @@ function showView(v) {
   $('#sidebar').classList.remove('open');
 }
 
+function clearAttachment() {
+  pendingAttachment = null;
+  $('#attachmentInput').value = '';
+  $('#attachmentChip').classList.remove('show');
+  $('#attachmentName').textContent = '';
+}
+
+$('#attachBtn').onclick = () => $('#attachmentInput').click();
+$('#removeAttachment').onclick = clearAttachment;
+$('#attachmentInput').onchange = async () => {
+  const file = $('#attachmentInput').files && $('#attachmentInput').files[0];
+  if (!file) return;
+  if (file.size > MAX_ATTACHMENT_BYTES) {
+    alert('فعلاً فایل باید حداکثر ۵ مگابایت باشد.');
+    clearAttachment();
+    return;
+  }
+  try {
+    const dataUrl = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = () => reject(new Error('خواندن فایل ناموفق بود.'));
+      reader.readAsDataURL(file);
+    });
+    pendingAttachment = { name: file.name, type: file.type || 'application/octet-stream', data: String(dataUrl).split(',')[1] };
+    $('#attachmentName').textContent = '📎 ' + file.name + ' (' + Math.max(1, Math.round(file.size / 1024)) + ' KB)';
+    $('#attachmentChip').classList.add('show');
+  } catch (e) {
+    alert('فایل خوانده نشد. دوباره تلاش کن.');
+    clearAttachment();
+  }
+};
+
 async function send(text) {
   text = (text || $('#prompt').value).trim();
-  if (!text) return;
+  if (!text && !pendingAttachment) return;
+  const attachmentToSend = pendingAttachment;
+  const visibleText = text || ('📎 فایل پیوست شد: ' + attachmentToSend.name);
 
   if (!active()) newChat();
 
   const c = active();
-  c.messages.push({role: 'user', text});
+  c.messages.push({role: 'user', text: visibleText});
 
   if (c.messages.length === 1) {
     c.title = text.length > 25 ? text.slice(0, 25) + '…' : text;
   }
 
   $('#prompt').value = '';
+  clearAttachment();
 
   const assistantMessage = {role: 'assistant', text: 'در حال فکر کردن…'};
   c.messages.push(assistantMessage);
@@ -357,7 +403,7 @@ async function send(text) {
       {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({message: text, model: selectedModel})
+        body: JSON.stringify({message: text || 'لطفاً فایل پیوست‌شده را بررسی کن و دربارهٔ محتوایش توضیح بده.', model: selectedModel, attachment: attachmentToSend})
       }
     );
 
