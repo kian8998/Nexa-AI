@@ -6,22 +6,71 @@
 <meta name="theme-color" content="#101322">
 <title>Nexa AI</title>
 <style>
-:root{--bg:#000000;--panel:#090909;--panel2:#141414;--text:#f5f5f5;--muted:#a8a8a8;--accent:#8b7cff;--line:#292929;--bubble:#111111}
+:root{--bg:#000;--panel:#090909;--panel2:#141414;--text:#f5f5f5;--muted:#a8a8a8;--accent:#8b7cff;--line:#292929;--bubble:#111}
 [data-theme="light"]{--bg:#f4f6fc;--panel:#fff;--panel2:#eef1fb;--text:#182039;--muted:#626d86;--accent:#6354e8;--line:#dfe4f1;--bubble:#edf0fa}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
-button,input,textarea{font:inherit}button{cursor:pointer}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
 .app{display:grid;grid-template-columns:280px 1fr;min-height:100vh;max-width:1400px;margin:auto}
 .sidebar{background:var(--panel);border-left:1px solid var(--line);padding:18px;display:flex;flex-direction:column;gap:14px}
-.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#8b7cff,#36c9d8);color:white;font-weight:900}
-.sub{font-size:12px;color:var(--muted);margin-top:3px}.btn{border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--text);padding:11px 13px}.btn.primary{background:var(--accent);border-color:transparent;color:white;font-weight:700}.btn.full{width:100%}
-.chatlist{display:flex;flex-direction:column;gap:6px;overflow:auto}.chatitem{display:flex;align-items:center;gap:8px;text-align:right;width:100%;border:1px solid transparent;background:transparent;color:var(--text);border-radius:11px;padding:11px}.chatitem.active,.chatitem:hover{background:var(--panel2);border-color:var(--line)}.sidebarfoot{margin-top:auto;display:grid;gap:8px}
-.main{display:flex;flex-direction:column;min-width:0;min-height:100vh}.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);gap:12px}.topright{display:flex;align-items:center;gap:10px}.pill{font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;color:var(--muted)}
-.content{width:min(850px,100%);margin:0 auto;padding:28px 22px;display:flex;flex-direction:column;gap:20px;flex:1}.welcome{text-align:center;padding:30px 10px 10px}.orb{width:68px;height:68px;border-radius:23px;margin:0 auto 18px;background:linear-gradient(135deg,#8b7cff,#36c9d8);display:grid;place-items:center;font-size:28px;box-shadow:0 12px 35px #6354e833}.welcome h1{font-size:28px;margin:0 0 10px}.welcome p{color:var(--muted);margin:0;line-height:1.9}
-.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.suggest{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;text-align:right;color:var(--text);line-height:1.8}.suggest b{display:block;margin-bottom:4px}.suggest span{font-size:13px;color:var(--muted)}
-.messages{display:flex;flex-direction:column;gap:14px}.msg{max-width:90%;padding:13px 15px;border-radius:16px;line-height:1.9;white-space:pre-wrap}.msg.user{align-self:flex-start;background:var(--accent);color:#fff;border-bottom-left-radius:5px}.msg.assistant{align-self:flex-end;background:var(--bubble);border:1px solid var(--line);border-bottom-right-radius:5px}
-.composer-wrap{position:sticky;bottom:0;padding:12px 20px 20px;background:linear-gradient(transparent,var(--bg) 20%)}.composer{width:min(850px,100%);margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;align-items:flex-end;gap:10px}.composer textarea{resize:none;min-height:46px;max-height:140px;flex:1;border:0;outline:0;background:transparent;color:var(--text);padding:12px;line-height:1.7}.send{width:46px;height:46px;border:0;border-radius:13px;background:var(--accent);color:white;font-size:20px}.note{text-align:center;color:var(--muted);font-size:11px;margin-top:9px}
-.mobile-menu{display:none}.view{display:none}.view.active{display:flex;flex-direction:column;gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}.card h2{margin:0 0 8px}.muted{color:var(--muted);line-height:1.8}.plan{border:1px solid var(--accent);background:linear-gradient(140deg,var(--panel),var(--panel2));border-radius:18px;padding:20px}.price{font-size:28px;font-weight:800;margin:14px 0}.check{line-height:2.1;color:var(--muted)}.field{display:grid;gap:8px;margin:12px 0}.field input,.field select{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text)}
-@media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none;position:fixed;z-index:5;inset:0 auto 0 0;width:min(300px,85vw);box-shadow:0 0 0 100vmax #0008}.sidebar.open{display:flex}.mobile-menu{display:inline-flex}.topbar{padding:0 14px;height:64px}.content{padding:18px 14px}.welcome{padding-top:22px}.welcome h1{font-size:24px}.suggestions{grid-template-columns:1fr}.composer-wrap{padding:10px 12px 14px}.msg{max-width:96%}}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+.logo{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:linear-gradient(135deg,#8b7cff,#36c9d8);color:white;font-weight:900}
+.sub{font-size:12px;color:var(--muted);margin-top:3px}
+.btn{border:1px solid var(--line);border-radius:13px;background:var(--panel2);color:var(--text);padding:11px 13px}
+.btn.primary{background:var(--accent);border-color:transparent;color:white;font-weight:700}
+.btn.full{width:100%}
+.chatlist{display:flex;flex-direction:column;gap:6px;overflow:auto}
+.chatitem{display:flex;align-items:center;gap:8px;text-align:right;width:100%;border:1px solid transparent;background:transparent;color:var(--text);border-radius:11px;padding:11px}
+.chatitem.active,.chatitem:hover{background:var(--panel2);border-color:var(--line)}
+.sidebarfoot{margin-top:auto;display:grid;gap:8px}
+.main{display:flex;flex-direction:column;min-width:0;min-height:100vh}
+.topbar{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid var(--line);gap:12px}
+.topright{display:flex;align-items:center;gap:10px}
+.pill{font-size:12px;border:1px solid var(--line);padding:7px 10px;border-radius:999px;color:var(--muted)}
+.content{width:min(850px,100%);margin:0 auto;padding:28px 22px;display:flex;flex-direction:column;gap:20px;flex:1}
+.welcome{text-align:center;padding:30px 10px 10px}
+.orb{width:68px;height:68px;border-radius:23px;margin:0 auto 18px;background:linear-gradient(135deg,#8b7cff,#36c9d8);display:grid;place-items:center;font-size:28px;box-shadow:0 12px 35px #6354e833}
+.welcome h1{font-size:28px;margin:0 0 10px}
+.welcome p{color:var(--muted);margin:0;line-height:1.9}
+.suggestions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.suggest{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:14px;text-align:right;color:var(--text);line-height:1.8}
+.suggest b{display:block;margin-bottom:4px}
+.suggest span{font-size:13px;color:var(--muted)}
+.messages{display:flex;flex-direction:column;gap:14px}
+.msg{max-width:90%;padding:13px 15px;border-radius:16px;line-height:1.9;white-space:pre-wrap;overflow-wrap:anywhere}
+.msg.user{align-self:flex-start;background:var(--accent);color:#fff;border-bottom-left-radius:5px}
+.msg.assistant{align-self:flex-end;background:var(--bubble);border:1px solid var(--line);border-bottom-right-radius:5px}
+.composer-wrap{position:sticky;bottom:0;padding:12px 20px 20px;background:linear-gradient(transparent,var(--bg) 20%)}
+.composer{width:min(850px,100%);margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;align-items:flex-end;gap:10px}
+.composer textarea{resize:vertical;min-height:46px;max-height:140px;flex:1;border:0;outline:0;background:transparent;color:var(--text);padding:12px;line-height:1.7}
+.send{width:46px;height:46px;border:0;border-radius:13px;background:var(--accent);color:white;font-size:20px}
+.send:disabled{opacity:.5}
+.note{text-align:center;color:var(--muted);font-size:11px;margin-top:9px}
+.mobile-menu{display:none}
+.view{display:none}
+.view.active{display:flex;flex-direction:column;gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h2{margin:0 0 8px}
+.muted{color:var(--muted);line-height:1.8}
+.plan{border:1px solid var(--accent);background:linear-gradient(140deg,var(--panel),var(--panel2));border-radius:18px;padding:20px}
+.price{font-size:28px;font-weight:800;margin:14px 0}
+.check{line-height:2.1;color:var(--muted)}
+.field{display:grid;gap:8px;margin:12px 0}
+.field input,.field select{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:12px;color:var(--text)}
+@media(max-width:760px){
+.app{grid-template-columns:1fr}
+.sidebar{display:none;position:fixed;z-index:5;inset:0 auto 0 0;width:min(300px,85vw);box-shadow:0 0 0 100vmax #0008}
+.sidebar.open{display:flex}
+.mobile-menu{display:inline-flex}
+.topbar{padding:0 14px;height:64px}
+.content{padding:18px 14px}
+.welcome{padding-top:22px}
+.welcome h1{font-size:24px}
+.suggestions{grid-template-columns:1fr}
+.composer-wrap{padding:10px 12px 14px}
+.msg{max-width:96%}
+}
 </style>
 </head>
 <body>
@@ -34,17 +83,29 @@ button,input,textarea{font:inherit}button{cursor:pointer}
   <div class="sidebarfoot">
     <button class="btn full" data-view="premium">✦ اشتراک ویژه</button>
     <button class="btn full" data-view="settings">⚙ تنظیمات</button>
-    <div class="sub">نسخه نمایشی اولیه · پرداخت هنوز متصل نیست</div>
+    <div class="sub">نسخه اولیه · پرداخت هنوز متصل نیست</div>
   </div>
 </aside>
+
 <main class="main">
 <header class="topbar">
-  <div class="topright"><button class="btn mobile-menu" id="menuBtn">☰</button><div><b id="pageTitle">گفت‌وگوی جدید</b><div class="sub" id="pageSub">با Nexa شروع کن</div></div></div>
-  <div style="display:flex;gap:8px;align-items:center"><span class="pill" id="tier">نسخه رایگان</span><button class="btn" id="themeBtn" title="تغییر پوسته">☼</button></div>
+  <div class="topright">
+    <button class="btn mobile-menu" id="menuBtn">☰</button>
+    <div><b id="pageTitle">گفت‌وگوی جدید</b><div class="sub" id="pageSub">با Nexa شروع کن</div></div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span class="pill" id="tier">نسخه رایگان</span>
+    <button class="btn" id="themeBtn" title="تغییر پوسته">☼</button>
+  </div>
 </header>
+
 <section class="content">
   <div class="view active" id="chatView">
-    <div class="welcome" id="welcome"><div class="orb">✦</div><h1>سلام! من Nexa AI هستم</h1><p>ایده‌هات رو بگو، سؤال بپرس یا برای شروع یکی از پیشنهادها رو انتخاب کن.</p></div>
+    <div class="welcome" id="welcome">
+      <div class="orb">✦</div>
+      <h1>سلام! من Nexa AI هستم</h1>
+      <p>ایده‌هات رو بگو، سؤال بپرس یا برای شروع یکی از پیشنهادها رو انتخاب کن.</p>
+    </div>
     <div class="suggestions" id="suggestions">
       <button class="suggest" data-prompt="برای امروز یک برنامه مطالعه ساده بساز"><b>📚 برنامه‌ریزی مطالعه</b><span>یک برنامه منظم و قابل اجرا</span></button>
       <button class="suggest" data-prompt="این موضوع را ساده و با مثال توضیح بده: هوش مصنوعی"><b>💡 یادگیری یک موضوع</b><span>توضیح ساده با مثال</span></button>
@@ -53,78 +114,275 @@ button,input,textarea{font:inherit}button{cursor:pointer}
     </div>
     <div class="messages" id="messages"></div>
   </div>
+
   <div class="view" id="premiumView">
-    <div class="card"><div class="orb" style="margin:0 0 14px">✦</div><h2>ارتقا به Nexa Plus</h2><p class="muted">برای تجربه‌ای کامل‌تر، امکانات ویژه را در یک اشتراک فعال کن.</p></div>
-    <div class="plan"><span class="pill">اشتراک ویژه</span><div class="price">قیمت در پنل تنظیم می‌شود</div><div class="check">✓ دسترسی به امکانات ویژه (پس از پیاده‌سازی)<br>✓ تجربه بدون محدودیت‌های نسخه رایگان (طبق طرح نهایی)<br>✓ مدیریت وضعیت اشتراک</div><button class="btn primary full" id="buyBtn" style="margin-top:14px">ادامه به خرید</button><p class="sub">این دکمه فعلاً نمایشی است؛ هنوز هیچ پرداختی انجام نمی‌شود.</p></div>
+    <div class="card">
+      <div class="orb" style="margin:0 0 14px">✦</div>
+      <h2>ارتقا به Nexa Plus</h2>
+      <p class="muted">برای تجربه‌ای کامل‌تر، امکانات ویژه را در یک اشتراک فعال کن.</p>
+    </div>
+    <div class="plan">
+      <span class="pill">اشتراک ویژه</span>
+      <div class="price">قیمت در پنل تنظیم می‌شود</div>
+      <div class="check">✓ دسترسی به امکانات ویژه پس از پیاده‌سازی<br>✓ امکانات مطابق طرح نهایی<br>✓ مدیریت وضعیت اشتراک</div>
+      <button class="btn primary full" id="buyBtn" style="margin-top:14px">ادامه به خرید</button>
+      <p class="sub">پرداخت هنوز متصل نیست و این دکمه نمایشی است.</p>
+    </div>
     <button class="btn" data-view="chat">← بازگشت به گفت‌وگو</button>
   </div>
+
   <div class="view" id="settingsView">
-    <div class="card"><h2>تنظیمات</h2><p class="muted">ظاهر Nexa را مطابق سلیقه‌ات تنظیم کن.</p>
-      <div class="field"><label for="themeSelect">پوسته</label><select id="themeSelect"><option value="dark">تیره</option><option value="light">روشن</option></select></div>
-      <div class="field"><label for="displayName">نام نمایشی</label><input id="displayName" placeholder="مثلاً کیان"></div>
+    <div class="card">
+      <h2>تنظیمات</h2>
+      <p class="muted">ظاهر Nexa را مطابق سلیقه‌ات تنظیم کن.</p>
+      <div class="field">
+        <label for="themeSelect">پوسته</label>
+        <select id="themeSelect"><option value="dark">تیره</option><option value="light">روشن</option></select>
+      </div>
+      <div class="field">
+        <label for="displayName">نام نمایشی</label>
+        <input id="displayName" placeholder="نام نمایشی">
+      </div>
       <button class="btn primary" id="saveSettings">ذخیره تنظیمات</button>
     </div>
     <button class="btn" data-view="chat">← بازگشت به گفت‌وگو</button>
   </div>
 </section>
-<div class="composer-wrap" id="composerWrap"><div class="composer"><textarea id="prompt" rows="1" placeholder="پیامت رو اینجا بنویس…"></textarea><button class="send" id="sendBtn" aria-label="ارسال">➤</button></div><div class="note">نسخه اولیه رابط کاربری است؛ برای پاسخ واقعی هوش مصنوعی باید سرویس امن متصل شود.</div></div>
+
+<div class="composer-wrap" id="composerWrap">
+  <div class="composer">
+    <textarea id="prompt" rows="1" placeholder="پیامت رو اینجا بنویس…"></textarea>
+    <button class="send" id="sendBtn" aria-label="ارسال">➤</button>
+  </div>
+  <div class="note">برای دریافت پاسخ هوش مصنوعی، اتصال اینترنت لازم است.</div>
+</div>
 </main>
 </div>
+
 <script>
-const $=s=>document.querySelector(s);
-let chats=JSON.parse(localStorage.getItem('nexa_chats')||'[]'),activeId=null,theme=localStorage.getItem('nexa_theme')||'dark',displayName=localStorage.getItem('nexa_name')||'';
-function id(){return 'c'+Date.now()+Math.random().toString(16).slice(2,6)}
-function newChat(){const c={id:id(),title:'گفت‌وگوی جدید',messages:[]};chats.unshift(c);activeId=c.id;saveChats();renderChats();renderMessages();showView('chat');$('#pageTitle').textContent=c.title;$('#pageSub').textContent='با Nexa شروع کن';$('#prompt').focus()}
-function active(){return chats.find(c=>c.id===activeId)}
-  function saveChats(){
-  localStorage.setItem('nexa_chats', JSON.stringify(chats));
-  localStorage.setItem('nexa_theme', theme);
-  localStorage.setItem('nexa_name', displayName);
-}
-function renderChats(){$('#chatlist').innerHTML='';chats.forEach(c=>{const b=document.createElement('button');b.className='chatitem'+(c.id===activeId?' active':'');b.textContent='▤  '+c.title;b.onclick=()=>{activeId=c.id;renderChats();renderMessages();showView('chat');$('#pageTitle').textContent=c.title};$('#chatlist').appendChild(b)})}
-function renderMessages(){const c=active();$('#messages').innerHTML='';if(!c||!c.messages.length){$('#welcome').style.display='block';$('#suggestions').style.display='grid'}else{$('#welcome').style.display='none';$('#suggestions').style.display='none';c.messages.forEach(m=>{const d=document.createElement('div');d.className='msg '+m.role;d.textContent=m.text;$('#messages').appendChild(d)})}}
-function showView(v){document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));$('#'+v+'View').classList.add('active');$('#composerWrap').style.display=v==='chat'?'block':'none';if(v==='premium'){$('#pageTitle').textContent='اشتراک ویژه';$('#pageSub').textContent='Nexa Plus'}if(v==='settings'){$('#pageTitle').textContent='تنظیمات';$('#pageSub').textContent='شخصی‌سازی اپ'}if(v==='chat'){const c=active();$('#pageTitle').textContent=c?c.title:'گفت‌وگوی جدید';$('#pageSub').textContent='با Nexa شروع کن'}$('#sidebar').classList.remove('open')}
-async function send(text){
-  text=(text||$('#prompt').value).trim();
-  if(!text)return;
-  if(!active())newChat();
-  const c=active();
-  c.messages.push({role:'user',text});
-  saveChats();
-  if(c.messages.length===1)c.title=text.length>25?text.slice(0,25)+'…':text;
-  $('#prompt').value='';
-  const assistantMessage={role:'assistant',text:'در حال فکر کردن…'};
-  c.messages.push(assistantMessage);
-  renderChats();renderMessages();$('#pageTitle').textContent=c.title;
-  $('#sendBtn').disabled=true;
-  try{
-    const response=await fetch('https://raspy-silence-3c45.kian80229-d6a.workers.dev/',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:text})
-    });
-    const data=await response.json();
-    if(!response.ok)throw new Error(data.error||'Request failed');
-    assistantMessage.text=data.reply||'پاسخی دریافت نشد.';
-    saveChats();
-  }catch(error){
-    console.error('Nexa AI error:', error);
-    assistantMessage.text='خطا: '+(error.message || String(error));
-}finally{
-    $('#sendBtn').disabled=false;
-    renderMessages();renderChats();$('#pageTitle').textContent=c.title;
+const $ = s => document.querySelector(s);
+
+function readStorage(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : value;
+  } catch (e) {
+    return fallback;
   }
 }
-$('#newChat').onclick=newChat;$('#sendBtn').onclick=()=>send();$('#prompt').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});document.querySelectorAll('[data-prompt]').forEach(b=>b.onclick=()=>send(b.dataset.prompt));document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view==='premium'?'premium':b.dataset.view==='settings'?'settings':'chat'));
-$('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);$('#themeBtn').onclick=()=>applyTheme(theme==='dark'?'light':'dark');$('#themeSelect').onchange=e=>applyTheme(e.target.value);function applyTheme(t){theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾';saveChats()}theme=t;document.documentElement.dataset.theme=t;$('#themeSelect').value=t;$('#themeBtn').textContent=t==='dark'?'☼':'☾'}
-$('#saveSettings').onclick=()=>{displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';saveChats()};displayName=$('#displayName').value.trim();$('#pageSub').textContent=displayName?'سلام '+displayName+'!':'تنظیمات ذخیره شد';};
-$('#menuBtn').onclick=()=>$('#sidebar').classList.toggle('open');$('#buyBtn').onclick=()=>alert('پرداخت هنوز متصل نیست. در نسخه نهایی باید شناسه محصول و کلید عمومی برنامه از پنل توسعه‌دهندگان مایکت تنظیم شود.');
-if(chats.length){
-  activeId=chats[0].id;
+
+let chats = [];
+try {
+  chats = JSON.parse(readStorage('nexa_chats', '[]'));
+  if (!Array.isArray(chats)) chats = [];
+} catch (e) {
+  chats = [];
+}
+
+let activeId = null;
+let theme = readStorage('nexa_theme', 'dark');
+let displayName = readStorage('nexa_name', '');
+
+function saveChats() {
+  try {
+    localStorage.setItem('nexa_chats', JSON.stringify(chats));
+    localStorage.setItem('nexa_theme', theme);
+    localStorage.setItem('nexa_name', displayName);
+  } catch (e) {
+    console.error('ذخیره اطلاعات انجام نشد:', e);
+  }
+}
+
+function id() {
+  return 'c' + Date.now() + Math.random().toString(16).slice(2, 6);
+}
+
+function active() {
+  return chats.find(c => c.id === activeId);
+}
+
+function newChat() {
+  const c = {id: id(), title: 'گفت‌وگوی جدید', messages: []};
+  chats.unshift(c);
+  activeId = c.id;
+  saveChats();
   renderChats();
   renderMessages();
   showView('chat');
-}else{
+  $('#pageTitle').textContent = c.title;
+  $('#pageSub').textContent = 'با Nexa شروع کن';
+  $('#prompt').focus();
+}
+
+function renderChats() {
+  $('#chatlist').innerHTML = '';
+  chats.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'chatitem' + (c.id === activeId ? ' active' : '');
+    b.textContent = '▤  ' + c.title;
+    b.onclick = () => {
+      activeId = c.id;
+      renderChats();
+      renderMessages();
+      showView('chat');
+      $('#pageTitle').textContent = c.title;
+    };
+    $('#chatlist').appendChild(b);
+  });
+}
+
+function renderMessages() {
+  const c = active();
+  $('#messages').innerHTML = '';
+
+  if (!c || !c.messages.length) {
+    $('#welcome').style.display = 'block';
+    $('#suggestions').style.display = 'grid';
+  } else {
+    $('#welcome').style.display = 'none';
+    $('#suggestions').style.display = 'none';
+
+    c.messages.forEach(m => {
+      const d = document.createElement('div');
+      d.className = 'msg ' + m.role;
+      d.textContent = m.text;
+      $('#messages').appendChild(d);
+    });
+  }
+}
+
+function showView(v) {
+  document.querySelectorAll('.view').forEach(x => x.classList.remove('active'));
+  const view = $('#' + v + 'View');
+  if (!view) return;
+
+  view.classList.add('active');
+  $('#composerWrap').style.display = v === 'chat' ? 'block' : 'none';
+
+  if (v === 'premium') {
+    $('#pageTitle').textContent = 'اشتراک ویژه';
+    $('#pageSub').textContent = 'Nexa Plus';
+  }
+
+  if (v === 'settings') {
+    $('#pageTitle').textContent = 'تنظیمات';
+    $('#pageSub').textContent = 'شخصی‌سازی اپ';
+  }
+
+  if (v === 'chat') {
+    const c = active();
+    $('#pageTitle').textContent = c ? c.title : 'گفت‌وگوی جدید';
+    $('#pageSub').textContent = displayName ? 'سلام ' + displayName + '!' : 'با Nexa شروع کن';
+  }
+
+  $('#sidebar').classList.remove('open');
+}
+
+async function send(text) {
+  text = (text || $('#prompt').value).trim();
+  if (!text) return;
+
+  if (!active()) newChat();
+
+  const c = active();
+  c.messages.push({role: 'user', text});
+
+  if (c.messages.length === 1) {
+    c.title = text.length > 25 ? text.slice(0, 25) + '…' : text;
+  }
+
+  $('#prompt').value = '';
+
+  const assistantMessage = {role: 'assistant', text: 'در حال فکر کردن…'};
+  c.messages.push(assistantMessage);
+
+  saveChats();
+  renderChats();
+  renderMessages();
+  $('#pageTitle').textContent = c.title;
+  $('#sendBtn').disabled = true;
+
+  try {
+    const response = await fetch(
+      'https://raspy-silence-3c45.kian80229-d6a.workers.dev/',
+      {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: text})
+      }
+    );
+
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || 'Request failed');
+
+    assistantMessage.text = data.reply || 'پاسخی دریافت نشد.';
+  } catch (error) {
+    console.error('Nexa AI error:', error);
+    assistantMessage.text = 'خطا در اتصال: ' + (error.message || String(error));
+  } finally {
+    saveChats();
+    $('#sendBtn').disabled = false;
+    renderMessages();
+    renderChats();
+    $('#pageTitle').textContent = c.title;
+  }
+}
+
+function applyTheme(t) {
+  theme = t;
+  document.documentElement.dataset.theme = t;
+  $('#themeSelect').value = t;
+  $('#themeBtn').textContent = t === 'dark' ? '☼' : '☾';
+  saveChats();
+}
+
+$('#newChat').onclick = newChat;
+$('#sendBtn').onclick = () => send();
+
+$('#prompt').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    send();
+  }
+});
+
+document.querySelectorAll('[data-prompt]').forEach(b => {
+  b.onclick = () => send(b.dataset.prompt);
+});
+
+document.querySelectorAll('[data-view]').forEach(b => {
+  b.onclick = () => {
+    const v = b.dataset.view;
+    showView(v === 'premium' ? 'premium' : v === 'settings' ? 'settings' : 'chat');
+  };
+});
+
+$('#themeBtn').onclick = () => applyTheme(theme === 'dark' ? 'light' : 'dark');
+$('#themeSelect').onchange = e => applyTheme(e.target.value);
+
+$('#saveSettings').onclick = () => {
+  displayName = $('#displayName').value.trim();
+  $('#pageSub').textContent = displayName ? 'سلام ' + displayName + '!' : 'تنظیمات ذخیره شد';
+  saveChats();
+};
+
+$('#menuBtn').onclick = () => $('#sidebar').classList.toggle('open');
+
+$('#buyBtn').onclick = () => {
+  alert('پرداخت هنوز متصل نیست.');
+};
+
+document.documentElement.dataset.theme = theme;
+$('#themeSelect').value = theme;
+$('#themeBtn').textContent = theme === 'dark' ? '☼' : '☾';
+$('#displayName').value = displayName;
+
+if (chats.length) {
+  activeId = chats[0].id;
+  renderChats();
+  renderMessages();
+  showView('chat');
+} else {
   newChat();
 }
 </script>
